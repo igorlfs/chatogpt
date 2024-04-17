@@ -1,28 +1,21 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod requests;
+mod silly;
+
 use rand::{thread_rng, Rng};
+use requests::text::get_affirmation;
+use silly::alternate_string_case;
 
-const NUM_POSSIBLE_ANSWERS: i32 = 1;
-
-fn alternate_string_case(string: &str) -> String {
-    string
-        .char_indices()
-        .map(|(idx, c)| {
-            if idx % 2 == 0 {
-                c.to_lowercase().to_string()
-            } else {
-                c.to_uppercase().to_string()
-            }
-        })
-        .collect()
-}
+const NUM_POSSIBLE_ANSWERS: i32 = 2;
 
 #[tauri::command]
 fn message_to_reply(message: &str) -> (i32, String) {
     let reply_id = thread_rng().gen_range(0..=NUM_POSSIBLE_ANSWERS);
     let reply = match reply_id {
         0 => "Pong!".to_string(),
+        1 => get_affirmation(),
         _ => alternate_string_case(message),
     };
     (reply_id, reply)
