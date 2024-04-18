@@ -5,10 +5,10 @@ mod requests;
 mod silly;
 
 use rand::{thread_rng, Rng};
-use requests::text::get_affirmation;
+use requests::text::{get_affirmation, get_joke};
 use silly::alternate_string_case;
 
-const NUM_POSSIBLE_ANSWERS: i32 = 2;
+const NUM_POSSIBLE_ANSWERS: i32 = 3;
 
 #[tauri::command]
 fn message_to_reply(message: &str) -> (i32, String) {
@@ -16,6 +16,7 @@ fn message_to_reply(message: &str) -> (i32, String) {
     let reply = match reply_id {
         0 => "Pong!".to_string(),
         1 => get_affirmation(),
+        2 => get_joke(),
         _ => alternate_string_case(message),
     };
     (reply_id, reply)
