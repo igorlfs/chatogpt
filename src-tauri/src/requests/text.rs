@@ -1,7 +1,5 @@
-use super::{
-    gemini::Content, get_gemini_response, handle_text_requests_from_json,
-    handle_text_requests_from_text,
-};
+use super::{handle_text_requests_from_json, handle_text_requests_from_text};
+use crate::gemini::{get_chat_reponse, lib::Content};
 
 // TODO things are getting out of hand
 
@@ -29,7 +27,7 @@ pub fn get_joke() -> String {
 }
 
 pub fn chat_gemini(apikey: &str, history: &[Content]) -> String {
-    let (data, error) = get_gemini_response(apikey, history);
+    let (data, error) = get_chat_reponse(apikey, history);
     if let Some(error) = error {
         eprintln!("{error}")
     }

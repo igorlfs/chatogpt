@@ -1,15 +1,14 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+pub mod gemini;
 mod requests;
 mod silly;
 
 use dotenv::dotenv;
+use gemini::lib::{Content, Part};
 use rand::{thread_rng, Rng};
-use requests::{
-    gemini::{Content, Part},
-    text::{chat_gemini, get_affirmation, get_joke},
-};
+use requests::text::{chat_gemini, get_affirmation, get_joke};
 use silly::alternate_string_case;
 use std::env;
 
