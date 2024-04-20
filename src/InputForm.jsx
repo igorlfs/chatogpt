@@ -13,6 +13,7 @@ const InputForm = () => {
         event.preventDefault();
         const [_, reply] = await invoke("message_to_reply", {
             message: inputValue,
+            threadId: 0,
         });
         console.log("Submitted value:", reply);
         setInputValue("");
