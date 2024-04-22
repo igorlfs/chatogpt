@@ -4,6 +4,7 @@
 pub mod gemini;
 mod requests;
 mod silly;
+mod encryption;
 
 use dotenv::dotenv;
 use gemini::lib::{Content, Part};
