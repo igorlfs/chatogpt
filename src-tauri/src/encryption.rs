@@ -1,4 +1,7 @@
+const ALPHABET_SIZE: u32 = 26;
+
 pub fn caesar_cipher(string: &str, shift: u32) -> String {
+    let shift = shift % ALPHABET_SIZE;
     let encrypted_text = String::from(string);
     encrypted_text
         .chars()
@@ -11,7 +14,7 @@ pub fn caesar_cipher(string: &str, shift: u32) -> String {
                 } else {
                     'A' as u32
                 };
-                char::from_u32((((c as u32 - base) as u32) + (shift % 26)) % 26 + base).unwrap()
+                char::from_u32(((c as u32 - base) + shift) % ALPHABET_SIZE + base).unwrap()
             }
         })
         .collect()
@@ -38,8 +41,8 @@ pub fn vigenere_cipher(string: &str, key: &str) -> String {
                 };
                 let shift =
                     uppercase_key.chars().nth(idx % key_size).unwrap() as u32 - ('A' as u32);
-                idx = idx + 1;
-                char::from_u32((c as u32 - base + shift) % 26 + base).unwrap()
+                idx += 1;
+                char::from_u32((c as u32 - base + shift) % ALPHABET_SIZE + base).unwrap()
             }
         })
         .collect()
@@ -99,7 +102,7 @@ mod test {
     }
 
     #[test]
-    fn test_caesar_cipher_with_not_alphabetic_chars() {
+    fn test_caesar_cipher_with_non_alphabetic_chars() {
         let encrypted_string = caesar_cipher("*&%..:077%", 5);
         assert_eq!(encrypted_string, "*&%..:077%");
     }
@@ -171,7 +174,7 @@ mod test {
     }
 
     #[test]
-    fn test_vigenere_cipher_with_not_alphabetic_chars() {
+    fn test_vigenere_cipher_with_non_alphabetic_chars() {
         let encrypted_string = vigenere_cipher("!@##!@.:??^]]", "syrax");
         assert_eq!(encrypted_string, "!@##!@.:??^]]");
     }
