@@ -2,13 +2,14 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 pub mod api;
+mod encryption;
 pub mod gemini;
 mod requests;
-mod encryption;
 mod strings;
 
 use api::{chat_gemini, get_affirmation, get_joke};
 use dotenv::dotenv;
+use encryption::{caesar_cipher, vigenere_cipher};
 use gemini::lib::{Content, Part};
 use rand::{thread_rng, Rng};
 use std::env;
@@ -17,7 +18,7 @@ use strings::alternate_string_case;
 // TODO there's probably a better way to do that
 static mut HISTORY: Vec<Vec<Content>> = vec![];
 
-const NUM_POSSIBLE_ANSWERS: i32 = 3;
+const NUM_POSSIBLE_ANSWERS: i32 = 5;
 
 #[tauri::command]
 fn message_to_reply(message: &str, thread_id: usize) -> (i32, String) {
@@ -51,6 +52,8 @@ fn message_to_reply(message: &str, thread_id: usize) -> (i32, String) {
         0 => "Pong!".to_string(),
         1 => get_affirmation(),
         2 => get_joke(),
+        3 => caesar_cipher(message, 13),        // ROT 13
+        4 => vigenere_cipher(message, "syrax"), // Fire && Blood
         _ => alternate_string_case(message),
     };
     (reply_id, reply)
