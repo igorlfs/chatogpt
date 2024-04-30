@@ -4,7 +4,6 @@
 pub mod api;
 pub mod gemini;
 mod requests;
-mod silly;
 mod encryption;
 mod strings;
 
