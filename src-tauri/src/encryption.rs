@@ -36,9 +36,9 @@ pub fn vigenere_cipher(string: &str, key: &str) -> String {
                 } else {
                     'A' as u32
                 };
-                idx = idx + 1;
                 let shift =
-                    uppercase_key.chars().nth((idx - 1) % key_size).unwrap() as u32 - ('A' as u32);
+                    uppercase_key.chars().nth(idx % key_size).unwrap() as u32 - ('A' as u32);
+                idx = idx + 1;
                 char::from_u32((c as u32 - base + shift) % 26 + base).unwrap()
             }
         })
