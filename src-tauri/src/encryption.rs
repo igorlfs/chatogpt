@@ -1,5 +1,4 @@
-pub fn caesar_cipher(string: &str, mut shift: u32) -> String {
-    shift = shift % 26;
+pub fn caesar_cipher(string: &str, shift: u32) -> String {
     let encrypted_text = String::from(string);
     encrypted_text
         .chars()
@@ -12,7 +11,7 @@ pub fn caesar_cipher(string: &str, mut shift: u32) -> String {
                 } else {
                     'A' as u32
                 };
-                char::from_u32((((c as u32 - base) as u32) + shift) % 26 + base).unwrap()
+                char::from_u32((((c as u32 - base) as u32) + (shift % 26)) % 26 + base).unwrap()
             }
         })
         .collect()
