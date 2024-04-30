@@ -1,17 +1,19 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+pub mod api;
 pub mod gemini;
 mod requests;
 mod silly;
 mod encryption;
+mod strings;
 
+use api::{chat_gemini, get_affirmation, get_joke};
 use dotenv::dotenv;
 use gemini::lib::{Content, Part};
 use rand::{thread_rng, Rng};
-use requests::text::{chat_gemini, get_affirmation, get_joke};
-use silly::alternate_string_case;
 use std::env;
+use strings::alternate_string_case;
 
 // TODO there's probably a better way to do that
 static mut HISTORY: Vec<Vec<Content>> = vec![];
@@ -55,6 +57,7 @@ fn message_to_reply(message: &str, thread_id: usize) -> (i32, String) {
     (reply_id, reply)
 }
 
+#[cfg(not(tarpaulin_include))]
 fn main() {
     dotenv().ok();
 

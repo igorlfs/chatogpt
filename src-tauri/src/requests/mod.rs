@@ -1,5 +1,3 @@
-pub mod text;
-
 use reqwest::header::{HeaderValue, ACCEPT};
 use std::collections::HashMap;
 
