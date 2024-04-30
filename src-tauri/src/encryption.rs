@@ -66,6 +66,25 @@ mod test {
     }
 
     #[test]
+    fn test_caesar_cipher_with_accent() {
+        let encrypted_string = caesar_cipher("É", 1);
+        assert_eq!(encrypted_string, "H"); // That's odd
+    }
+
+    #[test]
+    fn test_caesar_cipher_with_tilde() {
+        let encrypted_string = caesar_cipher("ã", 1);
+        assert_eq!(encrypted_string, "b");
+    }
+
+    #[test]
+    // Not diarrhea
+    fn test_caesar_cipher_with_diaeresis() {
+        let encrypted_string = caesar_cipher("ü", 1);
+        assert_eq!(encrypted_string, "a"); // wtf
+    }
+
+    #[test]
     fn test_caesar_cipher_with_shift_0() {
         let encrypted_string = caesar_cipher("Let's kill the king Aegon and blame the jester!", 0);
         assert_eq!(
@@ -137,6 +156,12 @@ mod test {
             encrypted_string,
             "Hap'o gehh pda gejc Wackj wjz xhwia pda faopan!"
         );
+    }
+
+    #[test]
+    fn test_vigenere_cipher_accent() {
+        let encrypted_string = vigenere_cipher("É", "a");
+        assert_eq!(encrypted_string, "G");
     }
 
     #[test]
