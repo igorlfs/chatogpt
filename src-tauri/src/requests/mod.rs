@@ -1,13 +1,23 @@
 use reqwest::header::{HeaderValue, ACCEPT};
 use std::collections::HashMap;
 
-pub fn handle_text_requests_from_text(url: &str) -> (Option<String>, Option<String>) {
+#[derive(Default)]
+pub struct RequestOptions {
+    pub query: Vec<(String, String)>, // This could be an Option but would just introduce noise
+    pub text: bool,                   // There's no need to always advertise 'text/plain' support
+}
+
+pub fn handle_text_requests(
+    url: &str,
+    options: &RequestOptions,
+) -> (Option<String>, Option<String>) {
     let client = reqwest::blocking::Client::new();
-    match client
-        .get(url)
-        .header(ACCEPT, HeaderValue::from_static("text/plain"))
-        .send()
-    {
+    let mut get = client.get(url);
+    get = get.query(&options.query);
+    if options.text {
+        get = get.header(ACCEPT, HeaderValue::from_static("text/plain"));
+    };
+    match get.send() {
         Ok(response) => (Some(response.text().unwrap()), None),
         Err(e) => (
             None,
@@ -16,7 +26,7 @@ pub fn handle_text_requests_from_text(url: &str) -> (Option<String>, Option<Stri
     }
 }
 
-pub fn handle_text_requests_from_json(url: &str, key: &str) -> (Option<String>, Option<String>) {
+pub fn handle_json_requests(url: &str, key: &str) -> (Option<String>, Option<String>) {
     match reqwest::blocking::get(url) {
         Ok(response) => match response.json::<HashMap<String, String>>() {
             Ok(object) => match object.get(key) {
@@ -40,11 +50,13 @@ pub fn handle_text_requests_from_json(url: &str, key: &str) -> (Option<String>, 
 
 #[cfg(test)]
 mod test {
-    use super::{handle_text_requests_from_json, handle_text_requests_from_text};
+    use crate::requests::{handle_text_requests, RequestOptions};
+
+    use super::handle_json_requests;
 
     #[test]
     fn test_json_fail_request_should_contain_error_and_no_data() {
-        let (data, err) = handle_text_requests_from_json("", "");
+        let (data, err) = handle_json_requests("", "");
 
         assert!(data.is_none());
         assert!(err.is_some());
@@ -55,7 +67,7 @@ mod test {
 
     #[test]
     fn test_json_fail_conversion_should_contain_error_and_no_data() {
-        let (data, err) = handle_text_requests_from_json("https://youtube.com", "");
+        let (data, err) = handle_json_requests("https://youtube.com", "");
 
         assert!(data.is_none());
         assert!(err.is_some());
@@ -66,7 +78,7 @@ mod test {
 
     #[test]
     fn test_json_fail_accessing_data_should_contain_error_and_no_data() {
-        let (data, err) = handle_text_requests_from_json("https://www.affirmations.dev/", "");
+        let (data, err) = handle_json_requests("https://www.affirmations.dev/", "");
 
         assert!(data.is_none());
         assert!(err.is_some());
@@ -77,7 +89,7 @@ mod test {
 
     #[test]
     fn test_text_fail_request_should_contain_error_and_no_data() {
-        let (data, err) = handle_text_requests_from_text("");
+        let (data, err) = handle_text_requests("", &RequestOptions::default());
 
         assert!(data.is_none());
         assert!(err.is_some());

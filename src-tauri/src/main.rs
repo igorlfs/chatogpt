@@ -1,13 +1,13 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-pub mod api;
+mod api;
 mod encryption;
-pub mod gemini;
+mod gemini;
 mod requests;
 mod strings;
 
-use api::{chat_gemini, get_affirmation, get_joke};
+use api::{chat_gemini, get_affirmation, get_joke, get_weather};
 use dotenv::dotenv;
 use encryption::{caesar_cipher, vigenere_cipher};
 use gemini::lib::{Content, Part};
@@ -18,7 +18,7 @@ use strings::{alternate_string_case, match_email_address};
 // TODO there's probably a better way to do that
 static mut HISTORY: Vec<Vec<Content>> = vec![];
 
-const NUM_POSSIBLE_ANSWERS: i32 = 6;
+const NUM_POSSIBLE_ANSWERS: i32 = 7;
 
 #[tauri::command]
 fn message_to_reply(message: &str, thread_id: usize) -> (i32, String) {
@@ -52,9 +52,10 @@ fn message_to_reply(message: &str, thread_id: usize) -> (i32, String) {
         0 => "Pong!".to_string(),
         1 => get_affirmation(),
         2 => get_joke(),
-        3 => caesar_cipher(message, 13),        // ROT 13
-        4 => vigenere_cipher(message, "syrax"), // Fire && Blood
-        5 => match_email_address(message),
+        3 => get_weather(env::var("CITY").unwrap_or_default().as_str()),
+        4 => caesar_cipher(message, 13),        // ROT 13
+        5 => vigenere_cipher(message, "syrax"), // Fire && Blood
+        6 => match_email_address(message),
         _ => alternate_string_case(message),
     };
     (reply_id, reply)
