@@ -4,6 +4,7 @@
 mod api;
 mod encryption;
 mod gemini;
+mod password;
 mod requests;
 mod strings;
 
@@ -11,6 +12,7 @@ use api::{chat_gemini, get_affirmation, get_joke, get_weather};
 use dotenv::dotenv;
 use encryption::{caesar_cipher, vigenere_cipher};
 use gemini::lib::{Content, Part};
+use password::is_password_secure;
 use rand::{thread_rng, Rng};
 use std::env;
 use strings::{alternate_string_case, match_email_address};
@@ -18,7 +20,7 @@ use strings::{alternate_string_case, match_email_address};
 // TODO there's probably a better way to do that
 static mut HISTORY: Vec<Vec<Content>> = vec![];
 
-const NUM_POSSIBLE_ANSWERS: i32 = 7;
+const NUM_POSSIBLE_ANSWERS: i32 = 8;
 
 #[tauri::command]
 fn message_to_reply(message: &str, thread_id: usize) -> (i32, String) {
@@ -56,6 +58,7 @@ fn message_to_reply(message: &str, thread_id: usize) -> (i32, String) {
         4 => caesar_cipher(message, 13),        // ROT 13
         5 => vigenere_cipher(message, "syrax"), // Fire && Blood
         6 => match_email_address(message),
+        7 => is_password_secure(message),
         _ => alternate_string_case(message),
     };
     (reply_id, reply)
