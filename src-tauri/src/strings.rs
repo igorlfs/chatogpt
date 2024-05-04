@@ -29,9 +29,57 @@ pub fn alternate_string_case(string: &str) -> String {
         .collect()
 }
 
+pub fn is_string_ordered(string: &str) -> String {
+    if are_words_ordered(string) {
+        format!("Woah, would you look at that: the words in {string} are sorted alphabetically!")
+    } else {
+        format!("The words in {string} are unsorted. Silly you.")
+    }
+}
+
+fn are_words_ordered(string: &str) -> bool {
+    let words = string
+        .unicode_words()
+        .collect::<Vec<&str>>()
+        .iter()
+        .map(|w| w.to_lowercase())
+        .collect::<Vec<String>>();
+    words.windows(2).all(|w| w[0] <= w[1])
+}
+
 #[cfg(test)]
 mod test {
-    use super::{alternate_string_case, is_email_address};
+    use crate::strings::{alternate_string_case, are_words_ordered, is_email_address};
+
+    #[test]
+    fn test_words_ordered() {
+        assert!(are_words_ordered("deez nuts"))
+    }
+
+    #[test]
+    fn test_words_ordered_mixed_case() {
+        assert!(are_words_ordered("Deez Nuts zigma"))
+    }
+
+    #[test]
+    fn test_single_word_is_ordered() {
+        assert!(are_words_ordered("deez"))
+    }
+
+    #[test]
+    fn test_no_word_is_ordered() {
+        assert!(are_words_ordered(""))
+    }
+
+    #[test]
+    fn test_words_unordered() {
+        assert!(!are_words_ordered("nuts deez"))
+    }
+
+    #[test]
+    fn test_words_unordered_mixed_case() {
+        assert!(!are_words_ordered("Zigma nuts Deez"))
+    }
 
     #[test]
     fn test_actual_email_address() {
