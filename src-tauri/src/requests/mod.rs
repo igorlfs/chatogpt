@@ -1,17 +1,19 @@
-use reqwest::header::{HeaderValue, ACCEPT};
+use reqwest::{
+    blocking::Client,
+    header::{HeaderValue, ACCEPT},
+};
 use std::collections::HashMap;
 
 pub fn handle_text_requests(
     url: &str,
     options: &Vec<(String, String)>,
 ) -> (Option<String>, Option<String>) {
-    let client = reqwest::blocking::Client::new();
-    let get = client
+    match Client::new()
         .get(url)
         .query(&options)
-        .header(ACCEPT, HeaderValue::from_static("text/plain"));
-
-    match get.send() {
+        .header(ACCEPT, HeaderValue::from_static("text/plain"))
+        .send()
+    {
         Ok(response) => (Some(response.text().unwrap()), None),
         Err(e) => (
             None,
