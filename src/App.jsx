@@ -1,11 +1,11 @@
 import "./App.css";
 
-import InputForm from "./InputForm";
+import Sidebar from "./Sidebar";
 
 function App() {
     return (
         <div>
-            <InputForm />
+            <Sidebar />
         </div>
     );
 }
