@@ -43,8 +43,7 @@ pub fn get_all_chats(connection: &Connection) -> Result<Vec<Chat>, Box<dyn Error
             updated_at: row.get("UpdatedAt")?,
             messages: vec![],
         })
-    });
-    let mut query_result = query_result.map(|opt| opt.unwrap());
+    })?;
     Ok(query_result.map(|opt| opt.unwrap()).collect())
 }
 
