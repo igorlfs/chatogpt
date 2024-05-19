@@ -69,7 +69,7 @@ fn message_to_reply(message: &str, thread_id: usize) -> (i32, String) {
 #[cfg(not(tarpaulin_include))]
 fn main() {
     dotenv().ok();
-
+    database::connect().ok();
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![message_to_reply])
         .run(tauri::generate_context!())

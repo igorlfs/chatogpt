@@ -1,8 +1,5 @@
 use chrono::{DateTime, Utc};
-use serde::{Deserialize, Deserializer, Serialize, Serializer};
-
-use serde::de::{self, Visitor};
-use std::fmt;
+use serde::{Deserialize, Serialize};
 
 fn default_id() -> u32 {
     0
