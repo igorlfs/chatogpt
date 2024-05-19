@@ -18,10 +18,9 @@ use rand::{thread_rng, Rng};
 use std::env;
 use strings::{alternate_string_case, is_string_ordered, match_email_address};
 
-// TODO there's probably a better way to do that
-static mut HISTORY: Vec<Vec<Content>> = vec![];
-
 const NUM_POSSIBLE_ANSWERS: i32 = 9;
+
+static mut HISTORY: Vec<Vec<Content>> = vec![];
 
 #[tauri::command]
 fn message_to_reply(message: &str, thread_id: usize) -> (i32, String) {
@@ -69,9 +68,11 @@ fn message_to_reply(message: &str, thread_id: usize) -> (i32, String) {
 #[cfg(not(tarpaulin_include))]
 fn main() {
     dotenv().ok();
-    database::connect().ok();
+    let connection = database::connect().ok();
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![message_to_reply])
+        .invoke_handler(tauri::generate_handler![
+            message_to_reply
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
