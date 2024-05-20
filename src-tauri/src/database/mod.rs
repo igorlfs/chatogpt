@@ -27,7 +27,7 @@ pub fn connect() -> Result<Connection, Box<dyn Error>> {
             MessageContent text,
             Role text,
             ChatId integer REFERENCES Chat,
-            CreatedAt text,
+            CreatedAt text
             )",
             [],
         )
