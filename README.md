@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# Trabalho Prático - Teste de Software
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Grupo
 
-## Available Scripts
+- Luís Felipe Ramos Ferreira
+- Igor Lacerda Faria da Silva
+- João Vitor Mateus Silva
+- Gabriela Assunção Fonseca
 
-In the project directory, you can run:
+## Explicação do Sistema
 
-### `npm start`
+O ChatGPT é um grande modelo de linguagem desenvolvido pela empresa _OpenAI_ disponibilizado ao público de forma gratuita em algumas de suas versões. ELe pode ser útil em um vasto conjunto de tarefas de processamento de linguagem natural, como por exemplo correção de error ortográficos, respostas de perguntas, traduções de textos, redigir emails e outros tipos de textos e até mesmo criar suas pŕoprias histórias.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Ele se tornou muito popular devido à sua capacidade de gerar textos rápidos e de alta qualidade que podem ajudar os usuários a resolver diversos tipos de tarefas.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Nesse contexto, dada a importância e popularidade do _chat_, nosso grupo se propôs a criar uma aplicação similiar, mas em contexto mais descontraído. O _ChatoGPT_ é uma sátira da ferramenta previamente citada, onde a ideia principal não é ser útil e sim gerar entretenimento ao tentar desenvolver uma conversa com a aplicação. Portanto, Enquanto o ChatGPT foca em fornecer respostas precisas e úteis, o Cahto GPT tem o objetivo de fazer as pessoas rirem e se divertirem com respostas inusitadas e humorísticas. Abaixo podemos citar algumas de suas principais _features_:
 
-### `npm test`
+### _Features_ do aplicativo _ChatoGPT_
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Respostas engraçadas e sem sentido
 
-### `npm run build`
+O _ChatoGPT_ fornece respostas que, baseadas ou não na pergunta inicial, são exageradas, sarcásticas ou simplesmente hilárias. Por exemplo, se um usuário pergunta sobre a previsão do tempo, o _ChatoGPT_ poderia responder algo como: "Vai chover sapos e arco-íris".
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Um outro usuário poderia perguntar também algo como: "Que horas vai ser o show do MC hat?" e o _ChatoGPT_ responder como: "As 18h e ônibus". (Para quem tiver curiosidade sobre a piada: https://www.youtube.com/watch?v=VRRGIjsJNLo).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Sarcasmo
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Algumas respostas do _ChatoGPT_ são carregadas de sarcasmo, tentando tirar sarro da pergunta ou dele mesmo. Por exemplo, se alguém pergunta como fazer uma receita de bolo de chocolate, o **ChatoGPT** pode responder: "Que preguiça de pesquisar no Google hein! Mas vamos lá: primeiro você precisar de chocolate ...".
 
-### `npm run eject`
+3. Mensagens secretas
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+O **ChatoGPT** pode pregar algumas peças as vezes também. Sua resposta pode até vir correta e com um conteúdo sério e profissional, mas ele vai te sacanear e enviar uma mensagem criptografada! Um usuário pode enviar a pergunta "Quem é maior, o Cruzeiro ou o Atletico?" e a resposta vai ser "ervtpwjc!". (Nesse caso todo mundo sabe que a resposta é Cruzeiro, mas pode nem sempre ser tão fácil...)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Mas qual tipo de cifra ele usa? Bom, boa sorte pra descobrir.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. Texto confuso
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+O **ChatoGPT** também pode responder corretamente sua pergunta, mas vai querer fazer uma piada e vai brincar com o texto da resposta. Um exemplo é quando ele alterna entre letras minúsculas e maiúsculas o texto da resposta. Por exemplo, o usuário pode perguntar "Qual o verdadeiro nome do Batman?" e a resposta vai ser "O vErDaDeIrO nOmE dO BaTmAn É cLaRk KeNt!"
 
-## Learn More
+Essas são só algumas das **features** do **ChatoGPT**. Mais serão adicionados para que ele seja uma ferramenta completa para você se divertir.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Tecnologias Utilizadas
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+O projeto foi implementado com o **Tauri**, que se trata de um **framework** que permite a criação de aplicativos de **desktop** usando tecnologias como HTML, CSS e JavaScript. Ela funciona com um front-end em JavaScript e um back-end em Rust.
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Para implementar algo que se parecesse ao menos com um modelo e linguagem, utilizamos a API Rest gratuita disponibilizada pelo modelo Gemini da Google. Desse modo, podemos enviar as perguntas que os usuários mandam para o **ChatoGPT** diretamente para uma requisição da API e manipulamos a resposta da maneira que for melhor. Em alguns casos, utilizamos **prompts** alternativos que garantem que a resposta enviada pelo próprio Gemini já seja satírica e e graçada. Em outros, apenas pegamos a resposta e manipulamos com nosso próprio código, como nos casos em que criptografamos o conteúdo do texto ou alternamos entre minúsculas e maiúsculas o conteúdo da resposta.

@@ -35,7 +35,7 @@ pub fn get_weather(city: &str) -> String {
     handle_request_errors(data, error)
 }
 
-pub fn chat_gemini(apikey: &str, history: &[Content]) -> String {
+pub fn chat_gemini(apikey: &str, history: Vec<Content>) -> String {
     let (data, error) = get_chat_reponse(apikey, history);
     handle_request_errors(data, error)
 }

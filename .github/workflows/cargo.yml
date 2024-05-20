@@ -16,4 +16,4 @@ jobs:
       - name: "Test local rust"
         uses: Kristories/cargo-test@v1.0.0
         with:
-          manifest-path: './src-tauri/Cargo.toml'
+          manifest-path: "./src-tauri/Cargo.toml"
