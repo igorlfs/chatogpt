@@ -4,8 +4,7 @@ pub mod model;
 use rusqlite::Connection;
 
 pub fn connect() -> Connection {
-    let connection =
-        Connection::open("chatogpt.db").expect("Erro ao abrir arquivo com a base de dados");
+    let connection = Connection::open_in_memory().expect("Erro ao iniciar base de dados");
 
     connection
         .execute(

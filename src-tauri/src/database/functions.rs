@@ -5,7 +5,7 @@ use super::model::{Chat, Message};
 
 pub fn get_chat(connection: &Connection, chat_id: u32) -> Result<Chat, Box<dyn Error>> {
     let mut query = connection
-        .prepare(format!("SELECT * FROM Chat WHERE ChatId = {} ORDER BY", chat_id).as_str())?;
+        .prepare(format!("SELECT * FROM Chat WHERE ChatId = {chat_id} ORDER BY").as_str())?;
 
     let mut query_result = query.query_map([], |row| {
         Ok(Chat {
@@ -46,7 +46,13 @@ pub fn get_all_chats(connection: &Connection) -> Result<Vec<Chat>, Box<dyn Error
             messages: vec![],
         })
     })?;
-    Ok(query_result.map(|opt| opt.unwrap()).collect())
+    Ok(query_result
+        .map(|opt| {
+            let mut chat = opt.unwrap();
+            chat.messages = get_chat_messages(connection, chat.id, None).unwrap();
+            chat
+        })
+        .collect())
 }
 
 pub fn get_chat_messages(
@@ -83,16 +89,15 @@ pub fn create_message(
     chat_id: u32,
     message: &Message,
 ) -> Result<(), Box<dyn Error>> {
-    let mut query = connection.prepare(
+    connection.prepare(
         format!(
             "INSERT INTO Message (MessageContent, Role, ChatId, CreatedAt) VALUES ('{}', '{}', {}, '{}')",
+            message.content.replace('\'', ""), // NOTE: not ideal
             message.role,
             chat_id,
             message.created_at.format("%+"),
         )
             .as_str(),
-    )?;
-    let mut new_message = message.clone();
-    new_message.id = query.insert([])? as u32;
+    )?.execute([])?;
     Ok(())
 }
