@@ -35,7 +35,7 @@ fn message_to_reply(db: State<Database>, message: &str, chat_id: u32) -> String 
     let apikey = env::var("APIKEY");
     let connection = db.connection.lock().unwrap();
     let mut new_message = Message {
-        id: 10, // por enquanto tanto faz,
+        id: 1, // deus que me perdoe por essa gambiarra
         created_at: Local::now().into(),
         content: "".to_string(),
         role: "Chato".to_string(),
@@ -81,7 +81,7 @@ fn message_to_reply(db: State<Database>, message: &str, chat_id: u32) -> String 
 
 #[tauri::command]
 fn create_chat_command(db: State<Database>, chat_json: String) -> Result<String, String> {
-    let chat = serde_json::from_str(&chat_json).expect("Error ao fazer parse do json de chat");
+    let chat = serde_json::from_str(&chat_json).unwrap();
     let connection = db.connection.lock().unwrap();
     let created_chat = database::functions::create_chat(&chat, &connection).unwrap();
     let created_chat_json = serde_json::to_string(&created_chat).unwrap();
@@ -121,6 +121,7 @@ fn create_message(
     message_json: String,
 ) -> Result<String, String> {
     let connection = db.connection.lock().unwrap();
+    // Aqui a role da mensagem deve ser de User
     let message = serde_json::from_str(&message_json).unwrap();
     let created_message =
         database::functions::create_message(&connection, chat_id, &message).unwrap();

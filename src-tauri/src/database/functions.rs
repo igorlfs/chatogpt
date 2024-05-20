@@ -18,9 +18,7 @@ pub fn get_chat(connection: &Connection, chat_id: u32) -> Result<Chat, Box<dyn E
     })?;
 
     let mut chat = query_result.next().unwrap().unwrap();
-
-    chat.messages = get_chat_messages(connection, chat.id, None).unwrap();
-
+    chat.messages = get_chat_messages(connection, chat_id, None).unwrap();
     Ok(chat)
 }
 

@@ -11,7 +11,7 @@ pub fn connect() -> Result<Connection, Box<dyn Error>> {
     connection
         .execute(
             "CREATE TABLE IF NOT EXISTS Chat (
-            ChatId integer PRIMARY KEY,
+            ChatId integer PRIMARY KEY AUTOINCREMENT,
             ChatTitle text,
             CreatedAt text,
             UpdatedAt text
@@ -23,7 +23,7 @@ pub fn connect() -> Result<Connection, Box<dyn Error>> {
     connection
         .execute(
             "CREATE TABLE IF NOT EXISTS Message (
-            MessageId integer PRIMARY KEY,
+            MessageId integer PRIMARY KEY AUTOINCREMENT,
             MessageContent text,
             Role text,
             ChatId integer REFERENCES Chat,
