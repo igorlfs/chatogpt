@@ -4,9 +4,9 @@ use lib::{
     Content, GenerateContentRequest, GenerateContentResponse, GenerationConfig, Part,
 };
 
-pub fn get_chat_reponse(apikey: &str, history: &[Content]) -> (Option<String>, Option<String>) {
+pub fn get_chat_reponse(apikey: &str, history: Vec<Content>) -> (Option<String>, Option<String>) {
     let payload = GenerateContentRequest {
-        contents: history.to_vec(),
+        contents: history,
         generation_config: Some(GenerationConfig {
             max_output_tokens: Some(1000),
             temperature: Some(0.4),

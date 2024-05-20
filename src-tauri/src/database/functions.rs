@@ -19,7 +19,7 @@ pub fn get_chat(connection: &Connection, chat_id: u32) -> Result<Chat, Box<dyn E
 
     let mut chat = query_result.next().unwrap().unwrap();
 
-    chat.messages = get_chat_messages(connection, chat.id).unwrap();
+    chat.messages = get_chat_messages(connection, chat.id, None).unwrap();
 
     Ok(chat)
 }
@@ -65,19 +65,31 @@ pub fn get_all_chats(connection: &Connection) -> Result<Vec<Chat>, Box<dyn Error
 pub fn get_chat_messages(
     connection: &Connection,
     chat_id: u32,
+    limit: Option<u32>,
 ) -> Result<Vec<Message>, Box<dyn Error>> {
-    let mut query = connection.prepare(
-        format!(
-            "SELECT * FROM Message WHERE ChatId = {} ORDER BY CreatedAt DESC",
-            chat_id
-        )
-        .as_str(),
-    )?;
+    let mut query = if let Some(limit) = limit {
+        connection.prepare(
+            format!(
+                "SELECT * FROM Message WHERE ChatId = {} ORDER BY CreatedAt DESC LIMIT {}",
+                chat_id, limit
+            )
+            .as_str(),
+        )?
+    } else {
+        connection.prepare(
+            format!(
+                "SELECT * FROM Message WHERE ChatId = {} ORDER BY CreatedAt DESC",
+                chat_id
+            )
+            .as_str(),
+        )?
+    };
 
     let query_result = query.query_map([], |row| {
         Ok(Message {
             id: row.get("MessageId")?,
             content: row.get("ChatTitle")?,
+            role: row.get("Role")?,
             created_at: row.get("CreatedAt")?,
         })
     })?;
@@ -86,14 +98,15 @@ pub fn get_chat_messages(
 }
 
 pub fn create_message(
+    connection: &Connection,
     chat_id: u32,
     message: &Message,
-    connection: &Connection,
 ) -> Result<Message, Box<dyn Error>> {
     let mut query = connection.prepare(
         format!(
-            "INSERT INTO Message (MessageContent, ChatId, CreatedAt, UpdatedAt) VALUES ('{}', {}, {})",
+            "INSERT INTO Message (MessageContent, Role, ChatId, CreatedAt) VALUES ('{}', '{}',{}, {})",
             message.content,
+            message.role, 
             chat_id,
             message.created_at.format("%+"),
         )

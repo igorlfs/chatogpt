@@ -25,6 +25,7 @@ pub fn connect() -> Result<Connection, Box<dyn Error>> {
             "CREATE TABLE IF NOT EXISTS Message (
             MessageId integer PRIMARY KEY,
             MessageContent text,
+            Role text,
             ChatId integer REFERENCES Chat,
             CreatedAt text,
             )",

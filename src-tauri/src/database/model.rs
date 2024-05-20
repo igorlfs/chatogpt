@@ -9,6 +9,7 @@ fn default_id() -> u32 {
 pub struct Message {
     #[serde(default = "default_id")]
     pub id: u32,
+    pub role: String,
     pub content: String,
     pub created_at: DateTime<Utc>,
 }
