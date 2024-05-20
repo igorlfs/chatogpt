@@ -1,8 +1,6 @@
 pub mod lib;
 
-use lib::{
-    Content, GenerateContentRequest, GenerateContentResponse, GenerationConfig, Part,
-};
+use lib::{Content, GenerateContentRequest, GenerateContentResponse, GenerationConfig, Part};
 
 pub fn get_chat_reponse(apikey: &str, history: Vec<Content>) -> (Option<String>, Option<String>) {
     let payload = GenerateContentRequest {
@@ -21,8 +19,8 @@ pub fn get_chat_reponse(apikey: &str, history: Vec<Content>) -> (Option<String>,
         Ok(response) => match response.json::<GenerateContentResponse>() {
             Ok(gemini_response) => {
                 let aux = &gemini_response.candidates[0].content.parts[0];
-                match aux { 
-                    Part::Text(text) => (Some(text.clone()), None), 
+                match aux {
+                    Part::Text(text) => (Some(text.clone()), None),
                     _ => (None, Some("Unexpected response from Gemini".to_string()))
                 }
             },

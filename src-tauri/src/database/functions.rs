@@ -11,8 +11,6 @@ pub fn get_chat(connection: &Connection, chat_id: u32) -> Result<Chat, Box<dyn E
         Ok(Chat {
             id: row.get("ChatId")?,
             title: row.get("ChatTitle")?,
-            created_at: row.get("CreatedAt")?,
-            updated_at: row.get("UpdatedAt")?,
             messages: vec![],
         })
     })?;
@@ -22,27 +20,20 @@ pub fn get_chat(connection: &Connection, chat_id: u32) -> Result<Chat, Box<dyn E
     Ok(chat)
 }
 
-pub fn create_chat(chat: &Chat, connection: &Connection) -> Result<Chat, Box<dyn Error>> {
-    let mut query = connection.prepare(
-        format!(
-            "INSERT INTO Chat (ChatTitle, CreatedAt, UpdatedAt) VALUES ('{}', {}, {})",
-            chat.title,
-            chat.created_at.format("%+"),
-            chat.updated_at.format("%+"),
-        )
-        .as_str(),
-    )?;
-    let mut new_chat = chat.clone();
-    new_chat.id = query.insert([])? as u32;
-    Ok(new_chat)
+pub fn create_chat(title: &str, connection: &Connection) -> u32 {
+    let mut query = connection
+        .prepare(format!("INSERT INTO Chat (ChatTitle) VALUES ('{title}')").as_str())
+        .expect("Erro ao criar nova conversa");
+    query.insert([]).expect("Erro ao recuperar ID de inserção") as u32
 }
 
 pub fn delete_chat(connection: &Connection, chat_id: u32) -> Result<(), Box<dyn Error>> {
-    let mut query =
-        connection.prepare(format!("DELETE FROM Message WHERE ChatId = {}", chat_id).as_str())?;
-    query.execute([])?;
-    query = connection.prepare(format!("DELETE FROM Chat WHERE ChatId = {}", chat_id).as_str())?;
-    query.execute([])?;
+    connection
+        .prepare(format!("DELETE FROM Message WHERE ChatId = {chat_id}").as_str())?
+        .execute([])?;
+    connection
+        .prepare(format!("DELETE FROM Chat WHERE ChatId = {chat_id}").as_str())?
+        .execute([])?;
     Ok(())
 }
 
@@ -52,8 +43,6 @@ pub fn get_all_chats(connection: &Connection) -> Result<Vec<Chat>, Box<dyn Error
         Ok(Chat {
             id: row.get("ChatId")?,
             title: row.get("ChatTitle")?,
-            created_at: row.get("CreatedAt")?,
-            updated_at: row.get("UpdatedAt")?,
             messages: vec![],
         })
     })?;
@@ -67,19 +56,13 @@ pub fn get_chat_messages(
 ) -> Result<Vec<Message>, Box<dyn Error>> {
     let mut query = if let Some(limit) = limit {
         connection.prepare(
-            format!(
-                "SELECT * FROM Message WHERE ChatId = {} ORDER BY CreatedAt DESC LIMIT {}",
-                chat_id, limit
-            )
-            .as_str(),
+            format!("SELECT * FROM Message WHERE ChatId = {chat_id} ORDER BY CreatedAt DESC LIMIT {limit}")
+                .as_str()
         )?
     } else {
         connection.prepare(
-            format!(
-                "SELECT * FROM Message WHERE ChatId = {} ORDER BY CreatedAt DESC",
-                chat_id
-            )
-            .as_str(),
+            format!("SELECT * FROM Message WHERE ChatId = {chat_id} ORDER BY CreatedAt DESC")
+                .as_str(),
         )?
     };
 
@@ -99,18 +82,17 @@ pub fn create_message(
     connection: &Connection,
     chat_id: u32,
     message: &Message,
-) -> Result<Message, Box<dyn Error>> {
+) -> Result<(), Box<dyn Error>> {
     let mut query = connection.prepare(
         format!(
-            "INSERT INTO Message (MessageContent, Role, ChatId, CreatedAt) VALUES ('{}', '{}',{}, {})",
-            message.content,
-            message.role, 
+            "INSERT INTO Message (MessageContent, Role, ChatId, CreatedAt) VALUES ('{}', '{}', {}, '{}')",
+            message.role,
             chat_id,
             message.created_at.format("%+"),
         )
-        .as_str(),
+            .as_str(),
     )?;
     let mut new_message = message.clone();
     new_message.id = query.insert([])? as u32;
-    Ok(new_message)
+    Ok(())
 }

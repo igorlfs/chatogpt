@@ -44,9 +44,30 @@ const InputForm = ({ onSendMessage }) => {
     const submitMessage = async () => {
         if (window.__TAURI_IPC__) {
             try {
-                const [_, reply] = await invoke("message_to_reply", {
+                const chatId = 0;
+                const messageId = 0;
+                await invoke("create_chat_command", { title: "Title" });
+                await invoke("create_message_command", {
+                    chatId,
+                    message: {
+                        id: messageId,
+                        role: "user",
+                        content: inputValue,
+                        created_at: new Date().toISOString(),
+                    },
+                });
+                const reply = await invoke("get_reply_command", {
                     message: inputValue,
-                    threadId: 0,
+                    chatId,
+                });
+                await invoke("create_message_command", {
+                    chatId,
+                    message: {
+                        id: messageId + 1,
+                        role: "chatogpt",
+                        content: reply,
+                        created_at: new Date().toISOString(),
+                    },
                 });
                 console.log("Submitted value:", reply);
                 onSendMessage(reply);

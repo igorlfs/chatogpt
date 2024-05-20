@@ -19,7 +19,5 @@ pub struct Chat {
     #[serde(default = "default_id")]
     pub id: u32,
     pub title: String,
-    pub created_at: DateTime<Utc>,
-    pub updated_at: DateTime<Utc>,
     pub messages: Vec<Message>,
 }

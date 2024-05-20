@@ -1,20 +1,17 @@
-use rusqlite::{Connection, Result};
-use std::error::Error;
-
 pub mod functions;
 pub mod model;
 
-pub fn connect() -> Result<Connection, Box<dyn Error>> {
+use rusqlite::Connection;
+
+pub fn connect() -> Connection {
     let connection =
-        Connection::open_in_memory().expect("Falha ao abrir banco de dados na memória!");
+        Connection::open("chatogpt.db").expect("Erro ao abrir arquivo com a base de dados");
 
     connection
         .execute(
-            "CREATE TABLE IF NOT EXISTS Chat (
+            r"CREATE TABLE IF NOT EXISTS Chat (
             ChatId integer PRIMARY KEY AUTOINCREMENT,
-            ChatTitle text,
-            CreatedAt text,
-            UpdatedAt text
+            ChatTitle text
             )",
             [],
         )
@@ -22,16 +19,16 @@ pub fn connect() -> Result<Connection, Box<dyn Error>> {
 
     connection
         .execute(
-            "CREATE TABLE IF NOT EXISTS Message (
+            r"CREATE TABLE IF NOT EXISTS Message (
             MessageId integer PRIMARY KEY AUTOINCREMENT,
             MessageContent text,
             Role text,
-            ChatId integer REFERENCES Chat,
+            ChatId integer,
             CreatedAt text
             )",
             [],
         )
         .expect("Falha ao criar tabela de mensagens!");
 
-    Ok(connection)
+    connection
 }
