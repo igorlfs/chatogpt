@@ -24,6 +24,21 @@ pub fn get_chat(connection: &Connection, chat_id: u32) -> Result<Chat, Box<dyn E
     Ok(chat)
 }
 
+pub fn create_chat(chat: &Chat, connection: &Connection) -> Result<Chat, Box<dyn Error>> {
+    let mut query = connection.prepare(
+        format!(
+            "INSERT INTO Chat (ChatTitle, CreatedAt, UpdatedAt) VALUES ('{}', {}, {})",
+            chat.title,
+            chat.created_at.format("%+"),
+            chat.updated_at.format("%+"),
+        )
+        .as_str(),
+    )?;
+    let mut new_chat = chat.clone();
+    new_chat.id = query.insert([])? as u32;
+    Ok(new_chat)
+}
+
 pub fn delete_chat(connection: &Connection, chat_id: u32) -> Result<(), Box<dyn Error>> {
     let mut query =
         connection.prepare(format!("DELETE FROM Message WHERE ChatId = {}", chat_id).as_str())?;
@@ -68,4 +83,23 @@ pub fn get_chat_messages(
     })?;
 
     Ok(query_result.map(|opt| opt.unwrap()).collect())
+}
+
+pub fn create_message(
+    chat_id: u32,
+    message: &Message,
+    connection: &Connection,
+) -> Result<Message, Box<dyn Error>> {
+    let mut query = connection.prepare(
+        format!(
+            "INSERT INTO Message (MessageContent, ChatId, CreatedAt, UpdatedAt) VALUES ('{}', {}, {})",
+            message.content,
+            chat_id,
+            message.created_at.format("%+"),
+        )
+        .as_str(),
+    )?;
+    let mut new_message = message.clone();
+    new_message.id = query.insert([])? as u32;
+    Ok(new_message)
 }
