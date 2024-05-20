@@ -5,27 +5,32 @@ pub mod functions;
 pub mod model;
 
 pub fn connect() -> Result<Connection, Box<dyn Error>> {
-    let connection = Connection::open_in_memory()?;
+    let connection =
+        Connection::open_in_memory().expect("Falha ao abrir banco de dados na memória!");
 
-    connection.execute(
-        "CREATE TABLE IF NOT EXISTS Chat (
+    connection
+        .execute(
+            "CREATE TABLE IF NOT EXISTS Chat (
             ChatId integer PRIMARY KEY,
             ChatTitle text,
             CreatedAt text,
             UpdatedAt text
             )",
-        [],
-    )?;
+            [],
+        )
+        .expect("Falha ao criar tabela de chats!");
 
-    connection.execute(
-        "CREATE TABLE IF NOT EXISTS Message (
+    connection
+        .execute(
+            "CREATE TABLE IF NOT EXISTS Message (
             MessageId integer PRIMARY KEY,
             MessageContent text,
-            ChatId integer REFERENCES Chats,
+            ChatId integer REFERENCES Chat,
             CreatedAt text,
             )",
-        [],
-    )?;
+            [],
+        )
+        .expect("Falha ao criar tabela de mensagens!");
 
     Ok(connection)
 }
