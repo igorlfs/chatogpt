@@ -70,7 +70,7 @@ const InputForm = ({ onSendMessage }) => {
                     },
                 });
                 console.log("Submitted value:", reply);
-                onSendMessage(reply);
+                onSendMessage(inputValue,reply);
             } catch (error) {
                 console.error("Error invoking Tauri command:", error);
             }

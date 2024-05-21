@@ -10,7 +10,7 @@ import InputForm from './InputForm';
 const Chat = () => {
     const [messages, setMessages] = React.useState([]);
 
-    const handleSendMessage = async (message) => {
+    const handleSendMessage = async (message,reply) => {
         // Adiciona a mensagem escrita no chat
         setMessages(prevMessages => [...prevMessages, { id: prevMessages.length + 1, text: message }]);
         
@@ -20,7 +20,7 @@ const Chat = () => {
         // Adiciona a mensagem de resposta como uma nova mensagem com ícone diferente
         setMessages(prevMessages => [
             ...prevMessages, 
-            { id: prevMessages.length + 2, text: 'Dio!', icon: <AccountCircleIcon color="secondary" /> }
+            { id: prevMessages.length + 2, text: reply, icon: <AccountCircleIcon color="secondary" /> }
         ]);
     };
 
