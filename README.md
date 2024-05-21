@@ -21,7 +21,7 @@ Nesse contexto, dada a importância e popularidade do _chat_, nosso grupo se pro
 
 O _ChatoGPT_ fornece respostas que, baseadas ou não na pergunta inicial, são exageradas, sarcásticas ou simplesmente hilárias. Por exemplo, se um usuário pergunta sobre a previsão do tempo, o _ChatoGPT_ poderia responder algo como: "Vai chover sapos e arco-íris".
 
-Um outro usuário poderia perguntar também algo como: "Que horas vai ser o show do MC hat?" e o _ChatoGPT_ responder como: "As 18h e ônibus". (Para quem tiver curiosidade sobre a piada: https://www.youtube.com/watch?v=VRRGIjsJNLo).
+Um outro usuário poderia perguntar também algo como: "Que horas vai ser o show do MC hat?" e o _ChatoGPT_ responder como: "As 18h e ônibus". (Para quem tiver curiosidade sobre a piada: <https://www.youtube.com/watch?v=VRRGIjsJNLo>).
 
 2. Sarcasmo
 
@@ -41,6 +41,6 @@ Essas são só algumas das **features** do **ChatoGPT**. Mais serão adicionados
 
 ## Tecnologias Utilizadas
 
-O projeto foi implementado com o **Tauri**, que se trata de um **framework** que permite a criação de aplicativos de **desktop** usando tecnologias como HTML, CSS e JavaScript. Ela funciona com um front-end em JavaScript e um back-end em Rust.
+O projeto foi implementado com o **Tauri**, que se trata de um **framework** que permite a criação de aplicativos de **desktop** usando tecnologias como HTML, CSS e JavaScript. Ela funciona com um front-end em JavaScript e um back-end em Rust. O Tauri é uma alternativa ao Electron, mas é mais seguro, rápido e compacto. Os testes foram implementados usando as funcionalidades nativas de Rust. O framework usado no front foi o React.
 
 Para implementar algo que se parecesse ao menos com um modelo e linguagem, utilizamos a API Rest gratuita disponibilizada pelo modelo Gemini da Google. Desse modo, podemos enviar as perguntas que os usuários mandam para o **ChatoGPT** diretamente para uma requisição da API e manipulamos a resposta da maneira que for melhor. Em alguns casos, utilizamos **prompts** alternativos que garantem que a resposta enviada pelo próprio Gemini já seja satírica e e graçada. Em outros, apenas pegamos a resposta e manipulamos com nosso próprio código, como nos casos em que criptografamos o conteúdo do texto ou alternamos entre minúsculas e maiúsculas o conteúdo da resposta.
