@@ -9,7 +9,7 @@
 
 ## Explicação do Sistema
 
-O ChatGPT é um grande modelo de linguagem desenvolvido pela empresa _OpenAI_ disponibilizado ao público de forma gratuita em algumas de suas versões. ELe pode ser útil em um vasto conjunto de tarefas de processamento de linguagem natural, como por exemplo correção de error ortográficos, respostas de perguntas, traduções de textos, redigir emails e outros tipos de textos e até mesmo criar suas pŕoprias histórias.
+O ChatGPT é um grande modelo de linguagem desenvolvido pela empresa _OpenAI_ disponibilizado ao público de forma gratuita em algumas de suas versões. Ele pode ser útil em um vasto conjunto de tarefas de processamento de linguagem natural, como por exemplo correção de error ortográficos, respostas de perguntas, traduções de textos, redigir emails e outros tipos de textos e até mesmo criar suas pŕoprias histórias.
 
 Ele se tornou muito popular devido à sua capacidade de gerar textos rápidos e de alta qualidade que podem ajudar os usuários a resolver diversos tipos de tarefas.
 
