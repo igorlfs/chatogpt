@@ -29,18 +29,18 @@ Algumas respostas do _ChatoGPT_ são carregadas de sarcasmo, tentando tirar sarr
 
 3. Mensagens secretas
 
-O **ChatoGPT** pode pregar algumas peças as vezes também. Sua resposta pode até vir correta e com um conteúdo sério e profissional, mas ele vai te sacanear e enviar uma mensagem criptografada! Um usuário pode enviar a pergunta "Quem é maior, o Cruzeiro ou o Atlético?" e a resposta vai ser "ervtpwjc!". (Nesse caso todo mundo sabe que a resposta é Cruzeiro, mas pode nem sempre ser tão fácil...)
+O _ChatoGPT_ pode pregar algumas peças as vezes também. Sua resposta pode até vir correta e com um conteúdo sério e profissional, mas ele vai te sacanear e enviar uma mensagem criptografada! Um usuário pode enviar a pergunta "Quem é maior, o Cruzeiro ou o Atlético?" e a resposta vai ser "ervtpwjc!". (Nesse caso todo mundo sabe que a resposta é Cruzeiro, mas pode nem sempre ser tão fácil...)
 
 Mas qual tipo de cifra ele usa? Bom, boa sorte pra descobrir.
 
 4. Texto confuso
 
-O **ChatoGPT** também pode responder corretamente sua pergunta, mas vai querer fazer uma piada e vai brincar com o texto da resposta. Um exemplo é quando ele alterna entre letras minúsculas e maiúsculas o texto da resposta. Por exemplo, o usuário pode perguntar "Qual o verdadeiro nome do Batman?" e a resposta vai ser "O vErDaDeIrO nOmE dO BaTmAn É cLaRk KeNt!"
+O _ChatoGPT_ também pode responder corretamente sua pergunta, mas vai querer fazer uma piada e vai brincar com o texto da resposta. Um exemplo é quando ele alterna entre letras minúsculas e maiúsculas o texto da resposta. Por exemplo, o usuário pode perguntar "Qual o verdadeiro nome do Batman?" e a resposta vai ser "O vErDaDeIrO nOmE dO BaTmAn É cLaRk KeNt!"
 
-Essas são só algumas das **features** do **ChatoGPT**. Mais serão adicionados para que ele seja uma ferramenta completa para você se divertir.
+Essas são só algumas das _features_ do _ChatoGPT_. Mais serão adicionados para que ele seja uma ferramenta completa para você se divertir.
 
 ## Tecnologias Utilizadas
 
 O projeto foi implementado com o **Tauri**, que se trata de um **framework** que permite a criação de aplicativos de **desktop** usando tecnologias como HTML, CSS e JavaScript. Ela funciona com um front-end em JavaScript e um back-end em Rust. O Tauri é uma alternativa ao Electron, mas é mais seguro, rápido e compacto. Os testes foram implementados usando as funcionalidades nativas de Rust. O framework usado no front foi o React.
 
-Para implementar algo que se parecesse ao menos com um modelo e linguagem, utilizamos a API Rest gratuita disponibilizada pelo modelo Gemini da Google. Desse modo, podemos enviar as perguntas que os usuários mandam para o **ChatoGPT** diretamente para uma requisição da API e manipulamos a resposta da maneira que for melhor. Em alguns casos, utilizamos **prompts** alternativos que garantem que a resposta enviada pelo próprio Gemini já seja satírica e e graçada. Em outros, apenas pegamos a resposta e manipulamos com nosso próprio código, como nos casos em que criptografamos o conteúdo do texto ou alternamos entre minúsculas e maiúsculas o conteúdo da resposta.
+Para implementar algo que se parecesse ao menos com um modelo e linguagem, utilizamos a API Rest gratuita disponibilizada pelo modelo Gemini da Google. Desse modo, podemos enviar as perguntas que os usuários mandam para o _ChatoGPT_ diretamente para uma requisição da API e manipulamos a resposta da maneira que for melhor. Em alguns casos, utilizamos _prompts_ alternativos que garantem que a resposta enviada pelo próprio Gemini já seja satírica e e graçada. Em outros, apenas pegamos a resposta e manipulamos com nosso próprio código, como nos casos em que criptografamos o conteúdo do texto ou alternamos entre minúsculas e maiúsculas o conteúdo da resposta.
