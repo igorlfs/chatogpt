@@ -9,11 +9,11 @@
 
 ## Explicação do Sistema
 
-O ChatGPT é um grande modelo de linguagem desenvolvido pela empresa _OpenAI_ disponibilizado ao público de forma gratuita em algumas de suas versões. Ele pode ser útil em um vasto conjunto de tarefas de processamento de linguagem natural, como por exemplo correção de error ortográficos, respostas de perguntas, traduções de textos, redigir emails e outros tipos de textos e até mesmo criar suas pŕoprias histórias.
+O _ChatGPT_ é um grande modelo de linguagem desenvolvido pela empresa _OpenAI_ disponibilizado ao público de forma gratuita em algumas de suas versões. Ele pode ser útil em um vasto conjunto de tarefas de processamento de linguagem natural, como por exemplo correção de error ortográficos, respostas de perguntas, traduções de textos, redigir emails e outros tipos de textos e até mesmo criar suas pŕoprias histórias.
 
 Ele se tornou muito popular devido à sua capacidade de gerar textos rápidos e de alta qualidade que podem ajudar os usuários a resolver diversos tipos de tarefas.
 
-Nesse contexto, dada a importância e popularidade do _chat_, nosso grupo se propôs a criar uma aplicação similiar, mas em contexto mais descontraído. O _ChatoGPT_ é uma sátira da ferramenta previamente citada, onde a ideia principal não é ser útil e sim gerar entretenimento ao tentar desenvolver uma conversa com a aplicação. Portanto, Enquanto o ChatGPT foca em fornecer respostas precisas e úteis, o Cahto GPT tem o objetivo de fazer as pessoas rirem e se divertirem com respostas inusitadas e humorísticas. Abaixo podemos citar algumas de suas principais _features_:
+Nesse contexto, dada a importância e popularidade do _chat_, nosso grupo se propôs a criar uma aplicação similiar, mas em contexto mais descontraído. O _ChatoGPT_ é uma sátira da ferramenta previamente citada, onde a ideia principal não é ser útil e sim gerar entretenimento ao tentar desenvolver uma conversa com a aplicação. Portanto, Enquanto o _ChatGPT_ foca em fornecer respostas precisas e úteis, o _ChatoGPT_ tem o objetivo de fazer as pessoas rirem e se divertirem com respostas inusitadas e humorísticas. Abaixo podemos citar algumas de suas principais _features_:
 
 ### _Features_ do aplicativo _ChatoGPT_
 
