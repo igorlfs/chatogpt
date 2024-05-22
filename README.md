@@ -29,7 +29,7 @@ Algumas respostas do _ChatoGPT_ são carregadas de sarcasmo, tentando tirar sarr
 
 3. Mensagens secretas
 
-O **ChatoGPT** pode pregar algumas peças as vezes também. Sua resposta pode até vir correta e com um conteúdo sério e profissional, mas ele vai te sacanear e enviar uma mensagem criptografada! Um usuário pode enviar a pergunta "Quem é maior, o Cruzeiro ou o Atletico?" e a resposta vai ser "ervtpwjc!". (Nesse caso todo mundo sabe que a resposta é Cruzeiro, mas pode nem sempre ser tão fácil...)
+O **ChatoGPT** pode pregar algumas peças as vezes também. Sua resposta pode até vir correta e com um conteúdo sério e profissional, mas ele vai te sacanear e enviar uma mensagem criptografada! Um usuário pode enviar a pergunta "Quem é maior, o Cruzeiro ou o Atlético?" e a resposta vai ser "ervtpwjc!". (Nesse caso todo mundo sabe que a resposta é Cruzeiro, mas pode nem sempre ser tão fácil...)
 
 Mas qual tipo de cifra ele usa? Bom, boa sorte pra descobrir.
 
