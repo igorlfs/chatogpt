@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Update packages
+      - name: Create Build Dir
         # CI Fails if we don't create the build dir
         run: mkdir build
       - name: Update packages
@@ -23,7 +23,9 @@ jobs:
         working-directory: ./src-tauri
         run: |
           cargo +nightly tarpaulin --verbose --all-features --workspace --out xml
-
+      - name: Workaround for codecov/feedback#263
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
