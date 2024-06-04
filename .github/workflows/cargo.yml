@@ -3,12 +3,19 @@ on:
   push:
   pull_request:
 
+# Make sure CI fails on all warnings, including Clippy lints
+env:
+  RUSTFLAGS: "-Dwarnings"
+
 jobs:
   test:
     runs-on: ubuntu-latest
     name: Testing
     steps:
       - uses: actions/checkout@v3
+      - name: Create Build Dir
+        # CI Fails if we don't create the build dir
+        run: mkdir build
       - name: Update packages
         run: sudo apt update
       - name: Install dependencies
@@ -17,3 +24,5 @@ jobs:
         uses: Kristories/cargo-test@v1.0.0
         with:
           manifest-path: "./src-tauri/Cargo.toml"
+      - name: Run Clippy
+        run: cargo clippy --all-targets --all-features --no-deps --manifest-path src-tauri/Cargo.toml
