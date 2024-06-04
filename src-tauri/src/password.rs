@@ -28,7 +28,19 @@ fn get_password_unsafety_reason(string: &str) -> Option<String> {
 
 #[cfg(test)]
 mod test {
-    use super::get_password_unsafety_reason;
+    use super::{get_password_unsafety_reason, is_password_secure};
+
+    #[test]
+    fn test_secure_password() {
+        let is_safe = is_password_secure("abcDef01234@");
+        assert!(is_safe.contains("secure"));
+    }
+
+    #[test]
+    fn test_unsafe_password() {
+        let is_safe = is_password_secure("");
+        assert!(is_safe.contains("unsafe"));
+    }
 
     #[test]
     fn test_password_is_correct() {

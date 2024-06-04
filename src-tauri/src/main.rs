@@ -34,6 +34,7 @@ struct Database {
     connection: Mutex<Connection>,
 }
 
+#[cfg(not(tarpaulin_include))]
 #[tauri::command]
 fn get_reply_command(db: State<Database>, message: &str, chat_id: u32) -> String {
     let apikey = env::var("APIKEY");
@@ -71,30 +72,35 @@ fn get_reply_command(db: State<Database>, message: &str, chat_id: u32) -> String
     }
 }
 
+#[cfg(not(tarpaulin_include))]
 #[tauri::command]
 fn create_chat_command(db: State<Database>, title: &str) -> u32 {
     let connection = db.connection.lock().unwrap();
     create_chat(title, &connection)
 }
 
+#[cfg(not(tarpaulin_include))]
 #[tauri::command]
 fn get_chat_command(db: State<Database>, chat_id: u32) -> Chat {
     let connection = db.connection.lock().unwrap();
     get_chat(&connection, chat_id).unwrap()
 }
 
+#[cfg(not(tarpaulin_include))]
 #[tauri::command]
 fn delete_chat_command(db: State<Database>, chat_id: u32) {
     let connection = db.connection.lock().unwrap();
     delete_chat(&connection, chat_id).unwrap();
 }
 
+#[cfg(not(tarpaulin_include))]
 #[tauri::command]
 fn get_all_chats_command(db: State<Database>) -> Vec<Chat> {
     let connection = db.connection.lock().unwrap();
     get_all_chats(&connection).unwrap()
 }
 
+#[cfg(not(tarpaulin_include))]
 #[tauri::command]
 fn create_message_command(db: State<Database>, chat_id: u32, message: Message) {
     let connection = db.connection.lock().unwrap();
