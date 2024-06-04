@@ -1,0 +1,5 @@
+[all]
+exclude-files = ["target/*"] # Contains some files from Tauri
+fail-under = 50
+no-fail-fast = true
+skip-clean = true
