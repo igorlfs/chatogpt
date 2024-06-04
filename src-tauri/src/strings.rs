@@ -49,7 +49,32 @@ fn are_words_ordered(string: &str) -> bool {
 
 #[cfg(test)]
 mod test {
+    use super::{is_string_ordered, match_email_address};
     use crate::strings::{alternate_string_case, are_words_ordered, is_email_address};
+
+    #[test]
+    fn test_sorted_string() {
+        let is_sorted = is_string_ordered("abc");
+        assert!(is_sorted.contains("are sorted"));
+    }
+
+    #[test]
+    fn test_unsorted_string() {
+        let is_sorted = is_string_ordered("foo bar");
+        assert!(is_sorted.contains("are unsorted"));
+    }
+
+    #[test]
+    fn test_match_non_email() {
+        let is_email = match_email_address("foo");
+        assert!(is_email.contains('❎'));
+    }
+
+    #[test]
+    fn test_match_email() {
+        let is_email = match_email_address("foo@bar.com");
+        assert!(is_email.contains('✅'));
+    }
 
     #[test]
     fn test_words_ordered() {

@@ -42,8 +42,21 @@ pub fn chat_gemini(apikey: &str, history: Vec<Content>) -> String {
 
 #[cfg(test)]
 mod test {
-    use super::{get_joke, get_weather};
+    use super::{get_joke, get_weather, handle_request_errors};
     use crate::api::{get_affirmation, ERROR_MESSAGE};
+
+    #[test]
+    fn test_handle_request_error() {
+        let response = handle_request_errors(None, Some("foo".to_string()));
+        assert_eq!(response, "Oopsie".to_string());
+    }
+
+    #[test]
+    fn test_handle_request_succes() {
+        let data = String::from("bar");
+        let response = handle_request_errors(Some(data.clone()), Some("foo".to_string()));
+        assert_eq!(response, data);
+    }
 
     #[test]
     fn test_get_weather() {
