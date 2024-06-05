@@ -3,8 +3,8 @@ use rusqlite::Connection;
 use std::error::Error;
 
 pub fn get_chat(connection: &Connection, chat_id: u32) -> Result<Chat, Box<dyn Error>> {
-    let mut query = connection
-        .prepare(format!("SELECT * FROM Chat WHERE ChatId = {chat_id} ORDER BY").as_str())?;
+    let mut query =
+        connection.prepare(format!("SELECT * FROM Chat WHERE ChatId = {chat_id}").as_str())?;
 
     let mut query_result = query.query_map([], |row| {
         Ok(Chat {
@@ -74,7 +74,7 @@ pub fn get_chat_messages(
     let query_result = query.query_map([], |row| {
         Ok(Message {
             id: row.get("MessageId")?,
-            content: row.get("ChatTitle")?,
+            content: row.get("MessageContent")?,
             role: row.get("Role")?,
             created_at: row.get("CreatedAt")?,
         })
@@ -103,7 +103,9 @@ pub fn create_message(
 
 #[cfg(test)]
 mod tests {
-    use crate::database::functions::{create_chat, create_message, delete_chat};
+    use crate::database::functions::{
+        create_chat, create_message, delete_chat, get_all_chats, get_chat, get_chat_messages,
+    };
     use crate::database::model::{Chat, Message};
     use rusqlite::{Connection, Result};
 
@@ -226,6 +228,56 @@ mod tests {
             })
         })?;
         assert!(!query_result.any(|chat| chat.unwrap().id == chat_id));
+        Ok(())
+    }
+
+    #[test]
+    fn test_get_chat_messages() -> Result<()> {
+        let connection = setup_db_in_memory()?;
+        let title = "test chat".to_string();
+        let chat_id = create_chat(&title, &connection);
+        for i in 1..4 {
+            let message = Message {
+                id: i,
+                role: "User".to_string(),
+                content: "This is a test message".to_string(),
+                created_at: chrono::offset::Utc::now(),
+            };
+
+            let _ = create_message(&connection, chat_id, &message);
+        }
+        let messages_ids: Vec<u32> = get_chat_messages(&connection, chat_id, None)
+            .unwrap()
+            .iter()
+            .map(|msg| msg.id)
+            .collect();
+        assert!([1, 2, 3].iter().all(|x| messages_ids.contains(x)));
+        Ok(())
+    }
+
+    #[test]
+    fn test_get_all_chats() -> Result<()> {
+        let connection = setup_db_in_memory()?;
+        for i in 1..4 {
+            let title = format!("test chat {}", i).to_string();
+            let _chat_id = create_chat(&title, &connection);
+        }
+        let chats_ids: Vec<u32> = get_all_chats(&connection)
+            .unwrap()
+            .iter()
+            .map(|chat| chat.id)
+            .collect();
+        assert!([1, 2, 3].iter().all(|x| chats_ids.contains(x)));
+        Ok(())
+    }
+
+    #[test]
+    fn test_get_chat() -> Result<()> {
+        let connection = setup_db_in_memory()?;
+        let title = "test chat".to_string();
+        let chat_id = create_chat(&title, &connection);
+        let chat = get_chat(&connection, chat_id);
+        assert_eq!(chat.unwrap().title, "test chat".to_string());
         Ok(())
     }
 }
