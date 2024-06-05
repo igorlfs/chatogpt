@@ -107,10 +107,11 @@ mod tests {
         create_chat, create_message, delete_chat, get_all_chats, get_chat, get_chat_messages,
     };
     use crate::database::model::{Chat, Message};
-    use rusqlite::{Connection, Result};
+    use rusqlite::Connection;
 
-    fn setup_db_in_memory() -> Result<Connection> {
-        let connection = Connection::open_in_memory()?;
+    fn setup_db_in_memory() -> Connection {
+        let connection = Connection::open_in_memory().unwrap();
+
         connection
             .execute(
                 r"CREATE TABLE IF NOT EXISTS Chat (
@@ -119,7 +120,7 @@ mod tests {
             )",
                 [],
             )
-            .expect("Falha ao criar tabela de chats!");
+            .unwrap();
 
         connection
             .execute(
@@ -132,21 +133,19 @@ mod tests {
             )",
                 [],
             )
-            .expect("Falha ao criar tabela de mensagens!");
+            .unwrap();
 
-        Ok(connection)
+        connection
     }
 
     #[test]
-    fn test_create_message() -> Result<()> {
-        let connection = setup_db_in_memory()?;
-
+    fn test_create_message() {
+        let connection = setup_db_in_memory();
         let chat = Chat {
             id: 1,
             title: "chat test".to_string(),
             messages: Vec::new(),
         };
-
         let message = Message {
             id: 1,
             role: "User".to_string(),
@@ -154,88 +153,81 @@ mod tests {
             created_at: chrono::offset::Utc::now(),
         };
 
-        let _ = create_message(&connection, chat.id, &message);
-        let mut query = connection.prepare(
-            "SELECT MessageId, Role, MessageContent, CreatedAt FROM Message WHERE MessageId = 1",
-        )?;
+        create_message(&connection, chat.id, &message).unwrap();
 
-        let mut query_result = query.query_map([], |row| {
-            Ok(Message {
-                id: row.get("MessageId")?,
-                role: row.get("Role")?,
-                content: row.get("MessageContent")?,
-                created_at: row.get("CreatedAt")?,
+        let mut query = connection.prepare(
+            r"SELECT MessageId, Role, MessageContent, CreatedAt FROM Message WHERE MessageId = 1",
+        ).unwrap();
+        let mut query_result = query
+            .query_map([], |row| {
+                Ok(Message {
+                    id: row.get("MessageId")?,
+                    role: row.get("Role")?,
+                    content: row.get("MessageContent")?,
+                    created_at: row.get("CreatedAt")?,
+                })
             })
-        })?;
-        if let Ok(row) = query_result.next().unwrap() {
-            let id = row.id;
-            let role = row.role;
-            let content = row.content;
-            let _created_at = row.created_at;
-            assert_eq!(id, 1);
-            assert_eq!(role, "User".to_string());
-            assert_eq!(content, "This is a test message".to_string());
-        } else {
-            panic!("No user found");
-        }
-        Ok(())
+            .unwrap();
+        let row = query_result.next().unwrap().unwrap();
+
+        assert_eq!(row.id, 1);
+        assert_eq!(row.role, "User".to_string());
+        assert_eq!(row.content, "This is a test message".to_string());
     }
 
     #[test]
-    fn test_create_chat() -> Result<()> {
-        let connection = setup_db_in_memory()?;
-        let title = "test chat".to_string();
-        let chat_id = create_chat(&title, &connection);
-        let mut query = connection.prepare(
-            format!(
-                "SELECT ChatId, ChatTitle FROM Chat WHERE ChatId = {}",
-                chat_id
+    fn test_create_chat() {
+        let connection = setup_db_in_memory();
+
+        let chat_id = create_chat("test chat", &connection);
+
+        let mut query = connection
+            .prepare(
+                format!("SELECT ChatId, ChatTitle FROM Chat WHERE ChatId = {chat_id}").as_str(),
             )
-            .as_str(),
-        )?;
-
-        let mut query_result = query.query_map([], |row| {
-            Ok(Chat {
-                id: row.get("ChatId")?,
-                title: row.get("ChatTitle")?,
-                messages: Vec::new(),
+            .unwrap();
+        let mut query_result = query
+            .query_map([], |row| {
+                Ok(Chat {
+                    id: row.get("ChatId")?,
+                    title: row.get("ChatTitle")?,
+                    messages: Vec::new(),
+                })
             })
-        })?;
-        if let Ok(row) = query_result.next().unwrap() {
-            let id = row.id;
-            let title = row.title;
-            assert_eq!(id, chat_id);
-            assert_eq!(title, "test chat".to_string());
-        } else {
-            panic!("No user found");
-        }
-        Ok(())
+            .unwrap();
+        let row = query_result.next().unwrap().unwrap();
+
+        assert_eq!(row.id, chat_id);
+        assert_eq!(row.title, "test chat".to_string());
     }
 
     #[test]
-    fn test_delete_chat() -> Result<()> {
-        let connection = setup_db_in_memory()?;
-        let title = "test chat".to_string();
-        let chat_id = create_chat(&title, &connection);
-        let _ = delete_chat(&connection, chat_id);
+    fn test_delete_chat() {
+        let connection = setup_db_in_memory();
+        let chat_id = create_chat("test chat", &connection);
 
-        let mut query = connection.prepare("SELECT ChatId, ChatTitle FROM Chat")?;
-        let mut query_result = query.query_map([], |row| {
-            Ok(Chat {
-                id: row.get("ChatId")?,
-                title: row.get("ChatTitle")?,
-                messages: Vec::new(),
+        delete_chat(&connection, chat_id).unwrap();
+
+        let mut query = connection
+            .prepare(r"SELECT ChatId, ChatTitle FROM Chat")
+            .unwrap();
+        let mut query_result = query
+            .query_map([], |row| {
+                Ok(Chat {
+                    id: row.get("ChatId")?,
+                    title: row.get("ChatTitle")?,
+                    messages: Vec::new(),
+                })
             })
-        })?;
+            .unwrap();
+
         assert!(!query_result.any(|chat| chat.unwrap().id == chat_id));
-        Ok(())
     }
 
     #[test]
-    fn test_get_chat_messages() -> Result<()> {
-        let connection = setup_db_in_memory()?;
-        let title = "test chat".to_string();
-        let chat_id = create_chat(&title, &connection);
+    fn test_get_chat_messages() {
+        let connection = setup_db_in_memory();
+        let chat_id = create_chat("test chat", &connection);
         for i in 1..4 {
             let message = Message {
                 id: i,
@@ -244,40 +236,41 @@ mod tests {
                 created_at: chrono::offset::Utc::now(),
             };
 
-            let _ = create_message(&connection, chat_id, &message);
+            create_message(&connection, chat_id, &message).unwrap();
         }
+
         let messages_ids: Vec<u32> = get_chat_messages(&connection, chat_id, None)
             .unwrap()
             .iter()
             .map(|msg| msg.id)
             .collect();
+
         assert!([1, 2, 3].iter().all(|x| messages_ids.contains(x)));
-        Ok(())
     }
 
     #[test]
-    fn test_get_all_chats() -> Result<()> {
-        let connection = setup_db_in_memory()?;
+    fn test_get_all_chats() {
+        let connection = setup_db_in_memory();
         for i in 1..4 {
-            let title = format!("test chat {}", i).to_string();
-            let _chat_id = create_chat(&title, &connection);
+            create_chat(&(format!("test chat {i}")), &connection);
         }
+
         let chats_ids: Vec<u32> = get_all_chats(&connection)
             .unwrap()
             .iter()
             .map(|chat| chat.id)
             .collect();
+
         assert!([1, 2, 3].iter().all(|x| chats_ids.contains(x)));
-        Ok(())
     }
 
     #[test]
-    fn test_get_chat() -> Result<()> {
-        let connection = setup_db_in_memory()?;
-        let title = "test chat".to_string();
-        let chat_id = create_chat(&title, &connection);
+    fn test_get_chat() {
+        let connection = setup_db_in_memory();
+        let chat_id = create_chat("test chat", &connection);
+
         let chat = get_chat(&connection, chat_id);
+
         assert_eq!(chat.unwrap().title, "test chat".to_string());
-        Ok(())
     }
 }
